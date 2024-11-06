@@ -4,7 +4,7 @@
 The project is built on Foundry
 
 
-To test
+To test the contracts
 ```
 forge test
 ```
