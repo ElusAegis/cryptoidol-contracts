@@ -1,12 +1,30 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
-import {Script, console2} from "forge-std/Script.sol";
+import "forge-std/Script.sol";
+import "../src/Halo2Verifier.sol";
+import "../src/CryptoIdolArtExtra.sol";
+import "../src/CryptoIdolArt.sol";
+import "../src/CryptoIdol.sol";
 
-contract CryptoIdolScript is Script {
-    function setUp() public {}
+contract DeployScript is Script {
+    Halo2Verifier public civ;
+    CryptoIdolArtExtra public ciae;
+    CryptoIdolArt public cia;
+    CryptoIdol public ci;
 
-    function run() public {
-        vm.broadcast();
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+
+        // Deploy the dependent contracts
+        civ = new Halo2Verifier();
+        ciae = new CryptoIdolArtExtra();
+        cia = new CryptoIdolArt(address(ciae));
+
+        // Deploy the main contract with the necessary constructor parameters
+        ci = new CryptoIdol(msg.sender, address(civ), address(cia));
+
+        vm.stopBroadcast();
     }
 }
