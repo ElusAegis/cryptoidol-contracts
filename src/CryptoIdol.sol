@@ -59,7 +59,6 @@ contract CryptoIdol is ERC721, Ownable {
     error COMMIT_ALREADY_EXISTS();
     error NOT_COMMITTER();
     error ALREADY_REVEALED();
-    error CHEAPSKATE();
     error MINTED_OUT();
     error VERIFICATION_FAILED();
 
@@ -67,7 +66,6 @@ contract CryptoIdol is ERC721, Ownable {
     ICryptoIdolArt public cryptoIdolArt;
     uint256 public tokenCount;
     uint256 public maxTokenCount = 10_000;
-    uint256 public mintPrice = 0.01 ether;
 
     struct Commit {
         address committer;
@@ -128,9 +126,6 @@ contract CryptoIdol is ERC721, Ownable {
     }
 
     function mint(bytes calldata proof, uint256[] calldata instances) external payable {
-        if (msg.value < mintPrice) {
-            revert CHEAPSKATE();
-        }
 
         Commit storage c = commits[keccak256(abi.encode(proof, instances))];
 
