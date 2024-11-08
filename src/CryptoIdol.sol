@@ -94,11 +94,11 @@ contract CryptoIdol is ERC721, Ownable {
     }
 
     function name() public pure override returns (string memory) {
-        return "CryptoIdol";
+        return "CryptoIdolV2";
     }
 
     function symbol() public pure override returns (string memory) {
-        return "IDOLNFT";
+        return "IDOLNFTV2";
     }
 
     function tokenURI(uint256 id) public view override returns (string memory) {

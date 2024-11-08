@@ -60,8 +60,8 @@ contract CryptoIdolTest is Test, ERC721TokenReceiver {
     }
 
     function testSymbolAndName() public {
-        assertEq(ci.name(), "CryptoIdol");
-        assertEq(ci.symbol(), "IDOLNFT");
+        assertEq(ci.name(), "CryptoIdolV2");
+        assertEq(ci.symbol(), "IDOLNFTV2");
     }
 
     function testIfOwnerCanUpdateVerifier() public {
