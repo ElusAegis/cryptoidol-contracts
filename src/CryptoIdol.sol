@@ -154,7 +154,7 @@ contract CryptoIdol is ERC721, Ownable {
             revert VERIFICATION_FAILED();
         }
 
-        score[tokenCount] = instances[0];
+        score[tokenCount] = convertScore(instances[1], 2**13, 10);
         minter[tokenCount] = msg.sender;
         mintTime[tokenCount] = block.timestamp;
 
@@ -164,5 +164,20 @@ contract CryptoIdol is ERC721, Ownable {
     function withdraw() external onlyOwner {
         (bool sent, ) = owner().call{value: address(this).balance}("");
         require(sent, "Failed to send Ether");
+    }
+
+
+    /**
+     * @notice Rescales a score from the original scale to the new scale.
+     * @param originalScore The score to be rescaled.
+     * @param originalScaleFactor The scale factor of the original score.
+     * @param newScaleFactor The scale factor of the new score.
+     * @return rescaledScore The real score in the range of 0 to 10, rounded down to the nearest bucket.
+     */
+    function convertScore(uint256 originalScore, uint256 originalScaleFactor, uint256 newScaleFactor) internal pure returns (uint256) {
+
+        uint256 rescaledScore = originalScore / (originalScaleFactor / newScaleFactor);
+
+        return rescaledScore;
     }
 }

@@ -143,6 +143,9 @@ contract CryptoIdolTest is Test, ERC721TokenReceiver {
         assertEq(address(ci).balance, 0);
         assertTrue(address(this).balance >= myBalance);
 
+        // Check the score
+        assertEq(ci.score(1), 4);
+
         // output metadata into file
         string memory metadata_output = ci.tokenURI(1);
         vm.writeJson(metadata_output, "./test/metadata/1");
